@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ILUMA — Portafolio de Innovación</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#F7F6F2;--surface:#FFFFFF;--surface2:#F1EFE8;
+  --border:rgba(0,0,0,0.07);--border-md:rgba(0,0,0,0.13);--border-strong:rgba(0,0,0,0.22);
+  --text:#1A1A18;--text2:#6B6B67;--text3:#A8A8A4;
+  --teal:#1D9E75;--teal-bg:#E1F5EE;--teal-text:#085041;--teal-mid:#5DCAA5;
+  --blue-bg:#E6F1FB;--blue-text:#0C447C;
+  --amber-bg:#FAEEDA;--amber-text:#633806;--amber:#d97706;
+  --purple-bg:#EEEDFE;--purple-text:#3C3489;--purple:#7c6df8;
+  --red-bg:#FCEBEB;--red-text:#791F1F;--red:#dc2626;
+  --gray-bg:#F1EFE8;--gray-text:#444441;
+  --r:10px;--rl:14px;--rxl:20px;
+  --shadow:0 1px 3px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.04);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;}
+
+/* HEADER */
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-mark{width:30px;height:30px;background:var(--text);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:white;letter-spacing:-0.02em;}
+.logo-name{font-size:15px;font-weight:500;letter-spacing:-0.02em;}
+.logo-sub{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
+.nav-tabs{display:flex;gap:2px;}
+.nav-tab{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;padding:6px 16px;border-radius:var(--r);border:none;background:transparent;color:var(--text2);cursor:pointer;transition:all 0.15s;}
+.nav-tab:hover{background:var(--surface2);color:var(--text);}
+.nav-tab.active{background:var(--text);color:white;}
+.header-date{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
+
+/* LAYOUT */
+main{max-width:1200px;margin:0 auto;padding:28px 32px;}
+.view{display:none;}
+.view.active{display:block;}
+
+/* TOOLBAR */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.toolbar input,.toolbar select{font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 12px;border:1px solid var(--border-md);border-radius:var(--r);background:var(--surface);color:var(--text);outline:none;transition:border-color 0.15s;}
+.toolbar input{flex:1;min-width:180px;}
+.toolbar input:focus,.toolbar select:focus{border-color:var(--border-strong);}
+.toolbar select{cursor:pointer;}
+
+/* STATS */
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 16px;min-width:90px;}
+.stat-num{font-size:22px;font-weight:300;font-family:'DM Mono',monospace;letter-spacing:-0.03em;}
+.stat-lbl{font-size:10px;color:var(--text2);margin-top:1px;text-transform:uppercase;letter-spacing:0.05em;}
+
+/* SECTION LABEL */
+.slbl{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px;}
+
+/* CARDS GRID */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:16px 18px;cursor:pointer;transition:border-color 0.15s,transform 0.1s,box-shadow 0.15s;}
+.card:hover{border-color:var(--border-md);transform:translateY(-1px);box-shadow:var(--shadow);}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:5px;}
+.card-title{font-size:14px;font-weight:500;flex:1;line-height:1.3;}
+.card-id{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;flex-shrink:0;margin-top:1px;}
+.estado-row{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);margin-bottom:8px;}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.card-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
+.tag{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500;}
+.tag-S{background:var(--teal-bg);color:var(--teal-text);}
+.tag-N{background:var(--blue-bg);color:var(--blue-text);}
+.tag-I{background:var(--amber-bg);color:var(--amber-text);}
+.tag-M{background:var(--purple-bg);color:var(--purple-text);}
+.tag-neg{background:var(--gray-bg);color:var(--gray-text);}
+.card-people{display:grid;grid-template-columns:1fr 1fr;gap:6px;border-top:1px solid var(--border);padding-top:10px;}
+.person-role{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.04em;}
+.person-name{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
+.eco-lbl{font-size:11px;color:var(--text3);margin-top:7px;font-style:italic;}
+
+/* CARD SCORE SECTION */
+.card-score-bar{border-top:1px solid var(--border);padding-top:10px;margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.card-score-val{font-size:18px;font-weight:300;font-family:'DM Mono',monospace;}
+.card-score-badge{font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;}
+.btn-ficha{font-size:12px;font-weight:500;padding:5px 12px;border-radius:var(--r);border:1px solid var(--border-md);background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;transition:all 0.15s;white-space:nowrap;}
+.btn-ficha:hover{background:var(--text);color:white;border-color:var(--text);}
+
+/* RESUMEN TABLE */
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:left;font-size:11px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--bg);}
+td{padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text);}
+tr:last-child td{border-bottom:none;}
+tr.resumen-row{cursor:pointer;}
+tr.resumen-row:hover td{background:var(--surface2);}
+.resumen-expand{display:none;}
+.resumen-expand.open{display:table-row;}
+.resumen-expand td{padding:0;}
+.expand-inner{padding:16px 20px;background:var(--surface2);border-bottom:1px solid var(--border);}
+
+/* MATRIZ */
+.criterios-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:24px;}
+.crit-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:16px 18px;}
+.crit-name{font-size:13px;font-weight:500;margin-bottom:4px;}
+.crit-desc{font-size:11px;color:var(--text3);line-height:1.5;margin-bottom:14px;}
+.slider-row{display:flex;align-items:center;gap:8px;}
+.slider-row label{font-size:11px;color:var(--text3);white-space:nowrap;}
+.slider-row input[type=range]{flex:1;accent-color:var(--text);cursor:pointer;}
+.slider-val{font-size:16px;font-weight:500;min-width:20px;text-align:right;font-family:'DM Mono',monospace;}
+.resultado-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:20px 22px;margin-bottom:20px;display:none;}
+.res-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+.res-nombre{font-size:17px;font-weight:500;margin-bottom:8px;}
+.res-score{font-size:34px;font-weight:300;font-family:'DM Mono',monospace;}
+.res-score-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-top:3px;}
+.dec-badge{display:inline-block;font-size:13px;font-weight:500;padding:5px 14px;border-radius:20px;}
+.d-av{background:var(--teal-bg);color:var(--teal-text);}
+.d-re{background:var(--amber-bg);color:var(--amber-text);}
+.d-ex{background:var(--purple-bg);color:var(--purple-text);}
+.d-pa{background:var(--red-bg);color:var(--red-text);}
+.barra-row{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.barra-lbl{font-size:12px;color:var(--text2);width:155px;flex-shrink:0;}
+.barra-out{flex:1;background:var(--bg);border-radius:4px;height:7px;overflow:hidden;}
+.barra-in{height:100%;border-radius:4px;transition:width 0.4s ease;}
+.barra-num{font-size:12px;font-weight:500;font-family:'DM Mono',monospace;min-width:30px;text-align:right;}
+.res-razon{font-size:13px;color:var(--text2);margin-top:14px;padding-top:14px;border-top:1px solid var(--border);line-height:1.7;}
+.leyenda{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px;}
+.ley-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);}
+.ley-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.hist-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;}
+.hist-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.btn-limpiar{font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;font-family:inherit;}
+.btn-limpiar:hover{color:var(--text2);}
+
+/* FICHA */
+.ficha-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;}
+.ficha-head{background:var(--surface2);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px;}
+.ficha-head-ttl{font-size:13px;font-weight:500;}
+.ficha-head-right{display:flex;gap:8px;align-items:center;}
+.ficha-head-right select{font-family:inherit;font-size:12px;border:1px solid var(--border-md);border-radius:20px;padding:3px 10px;background:transparent;color:var(--text2);cursor:pointer;outline:none;}
+.fecha-txt{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
+.ficha-body{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.fb-full{grid-column:1/-1;}
+.fb-sec{grid-column:1/-1;font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;padding-bottom:6px;border-bottom:1px solid var(--border);margin-top:4px;}
+.fb-field{display:flex;flex-direction:column;gap:4px;}
+.fb-lbl{font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;}
+.fb-opt{font-size:9px;background:var(--surface2);color:var(--text3);padding:1px 5px;border-radius:4px;margin-left:4px;text-transform:none;letter-spacing:0;font-weight:400;}
+.fb-field input,.fb-field textarea,.fb-field select{font-family:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);color:var(--text);outline:none;transition:border-color 0.15s;resize:none;line-height:1.5;}
+.fb-field input:focus,.fb-field textarea:focus,.fb-field select:focus{border-color:var(--border-strong);}
+.fb-field input::placeholder,.fb-field textarea::placeholder{color:var(--text3);}
+.fb-field input.pending{border-style:dashed;background:var(--surface2);}
+.ganador-wrap{grid-column:1/-1;border:1px solid var(--teal-mid);border-radius:var(--r);padding:12px 14px;background:var(--teal-bg);}
+.ganador-lbl{font-size:10px;font-weight:500;color:var(--teal-text);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;}
+.ganador-wrap textarea{font-family:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--teal-mid);border-radius:var(--r);background:white;color:#04342C;outline:none;resize:none;line-height:1.5;width:100%;transition:border-color 0.15s;}
+.ganador-wrap textarea:focus{border-color:var(--teal);}
+.ganador-wrap textarea::placeholder{color:var(--teal-mid);}
+fb-divider{grid-column:1/-1;border:none;border-top:1px solid var(--border);}
+.hitos-wrap{grid-column:1/-1;display:flex;flex-direction:column;gap:6px;}
+.hito-row{display:flex;gap:6px;align-items:center;}
+.hito-row input[type=checkbox]{width:15px;height:15px;cursor:pointer;flex-shrink:0;accent-color:var(--teal);}
+.hito-row input[type=text]{flex:1;font-family:inherit;font-size:12px;padding:6px 9px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);color:var(--text);outline:none;}
+.hito-row input[type=date]{width:125px;font-family:inherit;font-size:12px;padding:6px 9px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);color:var(--text);outline:none;}
+.btn-add-hito{font-family:inherit;font-size:12px;color:var(--text3);background:none;border:1px dashed var(--border-md);border-radius:var(--r);padding:6px;cursor:pointer;width:100%;grid-column:1/-1;transition:all 0.15s;}
+.btn-add-hito:hover{color:var(--text2);}
+.fb-divider{grid-column:1/-1;border:none;border-top:1px solid var(--border);}
+.ficha-footer{border-top:1px solid var(--border);padding:11px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.prog-wrap{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);}
+.prog-bar{width:72px;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--teal);border-radius:2px;transition:width 0.3s;}
+.footer-btns{display:flex;gap:8px;align-items:center;}
+.saved-msg{font-size:12px;color:var(--teal);display:none;}
+
+/* MODAL OVERLAY */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:500;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface);border-radius:var(--rxl);width:100%;max-width:680px;max-height:90vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.18);}
+.modal-header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--surface);z-index:10;}
+.modal-title{font-size:16px;font-weight:500;}
+.modal-close{font-family:inherit;font-size:20px;font-weight:300;background:none;border:none;cursor:pointer;color:var(--text2);line-height:1;padding:2px 6px;border-radius:var(--r);}
+.modal-close:hover{background:var(--surface2);color:var(--text);}
+.modal-body{padding:20px 24px;}
+
+/* BUTTONS */
+button{font-family:inherit;}
+.btn{font-size:13px;padding:7px 18px;border-radius:var(--r);border:1px solid var(--border-md);background:transparent;color:var(--text);cursor:pointer;transition:all 0.15s;font-family:inherit;}
+.btn:hover{background:var(--surface2);}
+.btn-primary{background:var(--text);color:white;border-color:var(--text);}
+.btn-primary:hover{opacity:0.85;background:var(--text);}
+.count-lbl{font-size:11px;color:var(--text3);margin-bottom:12px;font-family:'DM Mono',monospace;}
+.empty{text-align:center;padding:3rem;color:var(--text3);font-size:13px;}
+
+/* SEL ROW FICHA */
+.sel-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.sel-row select{flex:1;min-width:180px;font-family:inherit;font-size:13px;padding:8px 12px;border:1px solid var(--border-md);border-radius:var(--r);background:var(--surface);color:var(--text);outline:none;cursor:pointer;}
+
+@media print{header,.nav-tabs,.toolbar,.stats,.ficha-footer,.modal-overlay{display:none!important;}body{background:white;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">IL</div>
+    <div>
+      <div class="logo-name">ILUMA</div>
+      <div class="logo-sub">Portafolio de Innovación</div>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchView('tablero',this)">Tablero</button>
+    <button class="nav-tab" onclick="switchView('matriz',this)">Matriz de decisión</button>
+    <button class="nav-tab" onclick="switchView('ficha',this)">Ficha de proyecto</button>
+  </div>
+  <div class="header-date" id="header-date"></div>
+</header>
+
+<main>
+
+<!-- ═══════════════ TABLERO ═══════════════ -->
+<div class="view active" id="view-tablero">
+  <div style="display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:4px;width:fit-content;margin-bottom:20px;">
+    <button class="nav-tab active" id="tab-tarjetas" onclick="switchTab('tarjetas',this)">Tarjetas</button>
+    <button class="nav-tab" id="tab-resumen" onclick="switchTab('resumen',this)">Resumen ejecutivo</button>
+  </div>
+
+  <!-- TARJETAS -->
+  <div id="panel-tarjetas">
+    <div class="toolbar">
+      <input type="text" id="t-search" placeholder="Buscar proyecto o persona..." oninput="renderCards()">
+      <select id="t-nis" onchange="renderCards()">
+        <option value="">Todas las plataformas</option>
+        <option>Salud</option><option>Nutrición</option><option>Inocuidad</option><option>Múltiple</option>
+      </select>
+      <select id="t-estado" onchange="renderCards()">
+        <option value="">Todos los estados</option>
+        <option>Exploración</option><option>Validación técnica</option><option>Piloto / Pruebas</option><option>Estructuración</option>
+      </select>
+      <select id="t-neg" onchange="renderCards()">
+        <option value="">Todos los negocios</option>
+        <option>Alura</option><option>AFA</option><option>Premex</option><option>Okuo</option><option>Gerencia Técnica</option><option>Iluma</option>
+      </select>
+    </div>
+    <div class="stats" id="t-stats"></div>
+    <p class="count-lbl" id="t-count"></p>
+    <div class="cards-grid" id="t-grid"></div>
+  </div>
+
+  <!-- RESUMEN -->
+  <div id="panel-resumen" style="display:none;">
+    <div class="toolbar">
+      <input type="text" id="r-search" placeholder="Buscar..." oninput="renderResumen()">
+      <select id="r-nis" onchange="renderResumen()">
+        <option value="">Todas las plataformas</option>
+        <option>Salud</option><option>Nutrición</option><option>Inocuidad</option><option>Múltiple</option>
+      </select>
+      <select id="r-estado" onchange="renderResumen()">
+        <option value="">Todos los estados</option>
+        <option>Exploración</option><option>Validación técnica</option><option>Piloto / Pruebas</option><option>Estructuración</option>
+      </select>
+    </div>
+    <p class="count-lbl" id="r-count"></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:44px">#</th><th style="width:30%">Iniciativa</th><th style="width:18%">Negocio líder</th><th style="width:14%">Plataforma</th><th style="width:20%">Estado</th><th style="width:18%">Puntaje</th></tr></thead>
+        <tbody id="r-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MATRIZ ═══════════════ -->
+<div class="view" id="view-matriz">
+  <div class="toolbar" style="margin-bottom:16px;">
+    <select id="m-proj" style="flex:1;min-width:200px;font-family:inherit;font-size:13px;padding:8px 12px;border:1px solid var(--border-md);border-radius:var(--r);background:var(--surface);color:var(--text);outline:none;cursor:pointer;">
+      <option value="">Selecciona una iniciativa...</option>
+    </select>
+    <button class="btn btn-primary" onclick="evaluar()">Evaluar</button>
+  </div>
+
+  <div class="criterios-grid">
+    <div class="crit-card"><p class="crit-name">Impacto estratégico</p><p class="crit-desc">¿Qué tanto fortalece las plataformas NIS y la ventaja competitiva de ILUMA?</p><div class="slider-row"><label>Bajo</label><input type="range" id="s1" min="1" max="5" value="3" step="1" oninput="document.getElementById('v1').textContent=this.value"><label>Alto</label><span class="slider-val" id="v1">3</span></div></div>
+    <div class="crit-card"><p class="crit-name">Viabilidad técnica</p><p class="crit-desc">¿Tenemos la ciencia, los datos y las capacidades para desarrollarlo hoy?</p><div class="slider-row"><label>Baja</label><input type="range" id="s2" min="1" max="5" value="3" step="1" oninput="document.getElementById('v2').textContent=this.value"><label>Alta</label><span class="slider-val" id="v2">3</span></div></div>
+    <div class="crit-card"><p class="crit-name">Velocidad al mercado</p><p class="crit-desc">¿Qué tan rápido puede generar valor real para el cliente y el negocio?</p><div class="slider-row"><label>Lenta</label><input type="range" id="s3" min="1" max="5" value="3" step="1" oninput="document.getElementById('v3').textContent=this.value"><label>Rápida</label><span class="slider-val" id="v3">3</span></div></div>
+    <div class="crit-card"><p class="crit-name">Nivel de riesgo</p><p class="crit-desc">¿Qué tan controlable es la incertidumbre científica, regulatoria y de mercado?</p><div class="slider-row"><label>Alto</label><input type="range" id="s4" min="1" max="5" value="3" step="1" oninput="document.getElementById('v4').textContent=this.value"><label>Bajo</label><span class="slider-val" id="v4">3</span></div></div>
+  </div>
+
+  <div class="leyenda">
+    <div class="ley-item"><div class="ley-dot" style="background:var(--teal)"></div>Avanzar (≥ 4.0)</div>
+    <div class="ley-item"><div class="ley-dot" style="background:var(--amber)"></div>Revisar condiciones (3.0–3.9)</div>
+    <div class="ley-item"><div class="ley-dot" style="background:var(--purple)"></div>Explorar más (2.0–2.9)</div>
+    <div class="ley-item"><div class="ley-dot" style="background:var(--red)"></div>Pausar (&lt; 2.0)</div>
+  </div>
+
+  <div class="resultado-card" id="m-resultado">
+    <div class="res-header">
+      <div><p class="res-nombre" id="m-nombre">—</p><div id="m-badge"></div></div>
+      <div style="text-align:right"><div class="res-score" id="m-score">—</div><div class="res-score-lbl">Puntaje / 5.0</div></div>
+    </div>
+    <div id="m-barras"></div>
+    <p class="res-razon" id="m-razon"></p>
+  </div>
+
+  <div id="m-hist-wrap" style="display:none;">
+    <div class="hist-header"><p class="slbl" style="margin:0">Evaluaciones de esta sesión</p><button class="btn-limpiar" onclick="limpiarHist()">Limpiar</button></div>
+    <div class="hist-wrap">
+      <table><thead><tr><th style="width:30%">Iniciativa</th><th>Impacto</th><th>Viabilidad</th><th>Velocidad</th><th>Riesgo</th><th>Score</th><th style="width:22%">Decisión</th></tr></thead>
+      <tbody id="m-hist-body"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FICHA ═══════════════ -->
+<div class="view" id="view-ficha">
+  <div class="sel-row">
+    <select id="f-psel" onchange="loadFicha(this.value)">
+      <option value="">Nueva ficha / selecciona proyecto...</option>
+    </select>
+    <button class="btn" onclick="nuevaFicha()">+ Nueva</button>
+    <button class="btn" onclick="window.print()">Imprimir</button>
+  </div>
+
+  <div class="ficha-wrap">
+    <div class="ficha-head">
+      <span class="ficha-head-ttl">Ficha de proyecto</span>
+      <div class="ficha-head-right">
+        <select id="ff-estado"><option>Exploración</option><option>Validación técnica</option><option>Piloto / Pruebas</option><option>Estructuración</option><option>Lanzamiento</option><option>Pausado</option></select>
+        <span class="fecha-txt" id="ff-fecha"></span>
+      </div>
+    </div>
+    <div class="ficha-body">
+      <div class="fb-sec">Identidad</div>
+      <div class="fb-field fb-full"><span class="fb-lbl">Título</span><input type="text" id="ff-tit" placeholder="Nombre corto y memorable..." oninput="calcProg()"></div>
+      <div class="fb-field fb-full"><span class="fb-lbl">Descriptor — ¿qué es y qué problema resuelve?</span><textarea id="ff-desc" rows="2" placeholder="1–2 líneas: qué hace esta iniciativa y qué dolor de mercado o científico resuelve..." oninput="calcProg()"></textarea></div>
+      <div class="fb-field"><span class="fb-lbl">Plataforma NIS</span><select id="ff-nis" onchange="calcProg()"><option value="">Selecciona...</option><option>Nutrición</option><option>Inocuidad</option><option>Salud</option><option>Múltiple</option><option>Por definir</option></select></div>
+      <div class="fb-field"><span class="fb-lbl">Negocio líder</span><select id="ff-neg" onchange="calcProg()"><option value="">Selecciona...</option><option>Alura</option><option>AFA</option><option>Premex</option><option>Okuo</option><option>Gerencia Técnica</option><option>Iluma</option><option>Premex Allius</option><option>Premex Ecuador</option></select></div>
+
+      <div class="fb-divider"></div>
+      <div class="fb-sec">Valor estratégico</div>
+      <div class="fb-field fb-full"><span class="fb-lbl">Qué perdemos si no lo hacemos</span><textarea id="ff-pierde" rows="2" placeholder="Riesgo competitivo, oportunidad de mercado, capacidad científica o posición estratégica que sacrificamos..." oninput="calcProg()"></textarea></div>
+      <div class="fb-field fb-full"><span class="fb-lbl">Qué ganamos si lo hacemos</span><textarea id="ff-gana" rows="2" placeholder="Ventaja competitiva, nuevo mercado, capacidad instalada, evidencia científica o valor para el cliente..." oninput="calcProg()"></textarea></div>
+      <div class="ganador-wrap">
+        <div class="ganador-lbl">Este proyecto es ganador si...</div>
+        <textarea id="ff-ganador" rows="2" placeholder="Define el criterio de éxito concreto: qué resultado, en qué plazo, con qué evidencia declararías este proyecto un éxito..."></textarea>
+      </div>
+
+      <div class="fb-divider"></div>
+      <div class="fb-sec">Hipótesis de aprendizaje</div>
+      <div class="fb-field fb-full"><span class="fb-lbl">Si hacemos...</span><input type="text" id="ff-si" placeholder="Si desarrollamos / implementamos / validamos..." oninput="calcProg()"></div>
+      <div class="fb-field fb-full"><span class="fb-lbl">Entonces esperamos...</span><input type="text" id="ff-ent" placeholder="Esperamos que el cliente / mercado / sistema..." oninput="calcProg()"></div>
+      <div class="fb-field fb-full"><span class="fb-lbl">Lo validamos con...</span><input type="text" id="ff-val" placeholder="Métrica, experimento o evidencia que confirma o refuta la hipótesis..." oninput="calcProg()"></div>
+
+      <div class="fb-divider"></div>
+      <div class="fb-sec">Personas clave</div>
+      <div class="fb-field"><span class="fb-lbl">Responsable</span><input type="text" id="ff-resp" placeholder="Quien lidera y rinde cuentas..." oninput="calcProg()"></div>
+      <div class="fb-field"><span class="fb-lbl">Líder técnico</span><input type="text" id="ff-tec" placeholder="Nombre..." class="pending" oninput="this.classList.remove('pending');calcProg()"></div>
+      <div class="fb-field"><span class="fb-lbl">Líder comercial</span><input type="text" id="ff-com" placeholder="Nombre..." class="pending" oninput="this.classList.remove('pending');calcProg()"></div>
+      <div class="fb-field"><span class="fb-lbl">Ecosistema <span class="fb-opt">opcional</span></span><input type="text" id="ff-eco" placeholder="Universidades, aliados, centros..."></div>
+
+      <div class="fb-divider"></div>
+      <div class="fb-sec">Seguimiento y decisiones</div>
+      <div class="hitos-wrap"><span class="fb-lbl">Hitos y próximos pasos</span><div id="ff-hitos"></div></div>
+      <button class="btn-add-hito" onclick="addHito()">+ Agregar hito</button>
+      <div class="fb-field"><span class="fb-lbl">Decisión de gobernanza</span><select id="ff-dec"><option value="">Pendiente de evaluación</option><option>Avanzar</option><option>Revisar condiciones</option><option>Explorar más</option><option>Pausar</option></select></div>
+      <div class="fb-field"><span class="fb-lbl">Próxima revisión <span class="fb-opt">fecha</span></span><input type="date" id="ff-rev"></div>
+      <div class="fb-field fb-full"><span class="fb-lbl">Notas y contexto <span class="fb-opt">opcional</span></span><textarea id="ff-notas" rows="2" placeholder="Ideas emergentes, riesgos detectados, conversaciones relevantes..."></textarea></div>
+    </div>
+    <div class="ficha-footer">
+      <div class="prog-wrap"><span id="prog-lbl">0% completa</span><div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div></div>
+      <div class="footer-btns"><span class="saved-msg" id="saved-msg">Guardado</span><button class="btn" onclick="nuevaFicha()">Nueva ficha</button><button class="btn btn-primary" onclick="guardarFicha()">Guardar ficha</button></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title">Detalle del proyecto</span>
+      <button class="modal-close" onclick="closeModalBtn()">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const projects = [
+  {id:1,titulo:"Vacunas autógenas",desc:"Vacunas a la medida de cada granja para reducir mortalidad, enfermedad y uso de antibióticos con soporte científico.",nis:"Salud",negocio:"Alura",lidComercial:"Juan Pedro Fernández",lidTecnico:"Harold Durango",estado:"Exploración",eco:"IOWA State University, Edgar Diaz (Anitox), Jorge T"},
+  {id:2,titulo:"Bacteriófagos",desc:"Bacteriófagos personalizados por cliente como alternativa de precisión para reducir antibióticos y mejorar resultados sanitarios.",nis:"Salud",negocio:"Alura",lidComercial:"Juan Pedro Fernández",lidTecnico:"Jorge Bardales",estado:"Validación técnica",eco:"SIWA"},
+  {id:3,titulo:"Autopista del agua",desc:"Sistema integral de atención en granja a través del agua, con dosificación en sitio para reducir mortalidad y mejorar productividad.",nis:"Salud",negocio:"AFA",lidComercial:"Camilo Mejia",lidTecnico:"No asignado",estado:"Piloto / Pruebas",eco:"Sento"},
+  {id:4,titulo:"Toll manufacturing",desc:"Capacidades de manufactura de aditivos fuera de Colombia para mayor rentabilidad y expansión internacional.",nis:"Inocuidad",negocio:"Premex Ecuador",lidComercial:"Sebastián Velez",lidTecnico:"Beatriz Madrigal",estado:"Estructuración",eco:""},
+  {id:5,titulo:"Microbiología rápida",desc:"Diagnóstico microbiológico en menos de una hora en granja para acelerar respuesta sanitaria (Hypercell tech).",nis:"Salud",negocio:"Alura",lidComercial:"Juan Pedro Fernández",lidTecnico:"Diana Rey / Laura Cristancho",estado:"Piloto / Pruebas",eco:"Hypercell Tech"},
+  {id:6,titulo:"Granja experimental ganadería",desc:"Capacidades de laboratorio y experimentación en ganadería para generar evidencia y ventajas competitivas.",nis:"Múltiple",negocio:"Gerencia Técnica",lidComercial:"Javier Chica",lidTecnico:"Sin asignación",estado:"Exploración",eco:"Granja Tarso"},
+  {id:7,titulo:"Nursing inteligente",desc:"Plataforma de servicio para preiniciadores orientada a mejorar acompañamiento técnico y valor para el cliente.",nis:"Múltiple",negocio:"Gerencia Técnica",lidComercial:"Javier Chica",lidTecnico:"Juliana Villegas",estado:"Estructuración",eco:""},
+  {id:8,titulo:"Granja experimental preiniciadores",desc:"Infraestructura de experimentación en preiniciadores para acelerar validaciones y fortalecer propuesta de valor.",nis:"Múltiple",negocio:"Gerencia Técnica",lidComercial:"Javier Chica",lidTecnico:"Juliana Villegas",estado:"Estructuración",eco:""},
+  {id:9,titulo:"Independencia NIRS",desc:"Sistema autónomo de curvas NIR para ganar flexibilidad tecnológica y reducir dependencia del proveedor actual.",nis:"Nutrición",negocio:"Gerencia Técnica",lidComercial:"Javier Chica",lidTecnico:"Edwin / Jenifer",estado:"Validación técnica",eco:""},
+  {id:10,titulo:"Agente nutricional CTC",desc:"Agente de IA para potenciar al equipo técnico comercial de Premex hacia formulación autónoma y escalable.",nis:"Nutrición",negocio:"Gerencia Técnica",lidComercial:"Javier Chica",lidTecnico:"Elisa Uribe",estado:"Estructuración",eco:"Asimetrix"},
+  {id:11,titulo:"Digital Twins Aliar",desc:"Gemelo digital de Aliar para simular, predecir y optimizar la productividad del sistema.",nis:"Múltiple",negocio:"Premex Allius",lidComercial:"Diego Sierra",lidTecnico:"",estado:"Estructuración",eco:"Asimetrix"},
+  {id:12,titulo:"Mascotas (Grupo Bios)",desc:"Propuesta de valor para el segmento de mascotas de Grupo Bios como oportunidad en cliente estratégico.",nis:"Múltiple",negocio:"Premex Allius",lidComercial:"Diego Sierra",lidTecnico:"",estado:"Exploración",eco:""},
+  {id:13,titulo:"Pigmentos",desc:"Propuesta distintiva en pigmentos apalancada en conocimiento y datos, iniciando con pigmentación líquida.",nis:"Nutrición",negocio:"AFA",lidComercial:"Camilo Mejia",lidTecnico:"",estado:"Piloto / Pruebas",eco:""},
+  {id:14,titulo:"Zima - Enzimas",desc:"Evaluación de oportunidad en enzimas para definir apuesta competitiva basada en conocimiento y validación.",nis:"Nutrición",negocio:"AFA",lidComercial:"Camilo Mejia",lidTecnico:"Milena",estado:"Estructuración",eco:""},
+  {id:15,titulo:"Pertinent - Pesticidas",desc:"Desarrollo de mercado para pesticidas naturales en alimento, mejorando indicadores de productividad.",nis:"Salud",negocio:"Iluma",lidComercial:"Juan Pedro Fernández",lidTecnico:"Paula Barngrover",estado:"Validación técnica",eco:""},
+  {id:16,titulo:"Plasma bovinos",desc:"Reemplazo nutricional para plasma en etapas tempranas de producción, buscando eficiencia en costo y desempeño.",nis:"Nutrición",negocio:"Premex",lidComercial:"Paula Barngrover",lidTecnico:"Javier Chica",estado:"Exploración",eco:""},
+  {id:17,titulo:"Reemplazo formaldehído",desc:"Alternativa eficiente al formaldehído para anticipar restricciones regulatorias y sostener el desempeño.",nis:"Inocuidad",negocio:"Okuo / Anitox",lidComercial:"No asignado",lidTecnico:"No asignado",estado:"Exploración",eco:""},
+  {id:18,titulo:"Grasas de sobrepaso",desc:"Capturar valor del mercado de grasas de sobrepaso.",nis:"Nutrición",negocio:"Premex",lidComercial:"Juan David Fernández",lidTecnico:"",estado:"Exploración",eco:"Fernando Davalos"},
+  {id:19,titulo:"Metionina / Lisina / Colina sobrepaso",desc:"Propuesta en metionina, lisina y colina de sobrepaso apalancada en conocimiento y tecnología de Grascal.",nis:"Nutrición",negocio:"Premex",lidComercial:"No asignado",lidTecnico:"No asignado",estado:"Exploración",eco:""},
+];
+
+const scores = {};
+const nisKey = {Salud:"S",Nutrición:"N",Inocuidad:"I",Múltiple:"M","Por definir":"M"};
+const estadoColors = {"Exploración":"#888780","Validación técnica":"#2b7de9","Piloto / Pruebas":"#d97706","Estructuración":"#7c6df8","Lanzamiento":"#1D9E75","Pausado":"#dc2626"};
+const estadoOrder = ["Exploración","Validación técnica","Piloto / Pruebas","Estructuración","Lanzamiento"];
+const decLabels = {"Avanzar":"d-av","Revisar condiciones":"d-re","Explorar más":"d-ex","Pausar":"d-pa"};
+const decColors = {"Avanzar":"#1D9E75","Revisar condiciones":"#d97706","Explorar más":"#7c6df8","Pausar":"#dc2626"};
+const barLabels = ["Impacto estratégico","Viabilidad técnica","Velocidad al mercado","Nivel de riesgo"];
+const razones = {
+  "Avanzar":"La iniciativa tiene una combinación sólida de impacto, viabilidad y velocidad. Es momento de acelerar recursos y definir el próximo hito concreto.",
+  "Revisar condiciones":"La iniciativa tiene potencial pero hay una o más dimensiones débiles. Antes de avanzar, identifica qué condición necesita mejorar y define un plazo para revisarla.",
+  "Pausar":"En este momento las condiciones no son favorables para avanzar. Documenta las razones y define qué tendría que cambiar para retomar.",
+  "Explorar más":"La iniciativa está en etapa temprana con mucha incertidumbre. El siguiente paso es reducir riesgo con hipótesis de aprendizaje pequeñas antes de comprometer más recursos."
+};
+
+function barColor(v){if(v>=4)return"#1D9E75";if(v>=3)return"#d97706";return"#E24B4A";}
+function getDecision(s){if(s>=4)return"Avanzar";if(s>=3)return"Revisar condiciones";if(s>=2)return"Explorar más";return"Pausar";}
+
+// ── INIT ──
+function init(){
+  document.getElementById('header-date').textContent=new Date().toLocaleDateString('es-CO',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('ff-fecha').textContent=new Date().toLocaleDateString('es-CO',{day:'numeric',month:'short',year:'numeric'});
+  // populate selects
+  const opts = projects.map(p=>`<option value="${p.titulo}">${p.titulo}</option>`).join('');
+  document.getElementById('m-proj').innerHTML='<option value="">Selecciona una iniciativa...</option>'+opts;
+  document.getElementById('f-psel').innerHTML='<option value="">Nueva ficha / selecciona proyecto...</option>'+opts;
+  renderCards();
+  resetHitos();calcProg();
+}
+
+// ── VIEWS ──
+function switchView(id,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+function switchTab(id,btn){
+  document.getElementById('panel-tarjetas').style.display=id==='tarjetas'?'block':'none';
+  document.getElementById('panel-resumen').style.display=id==='resumen'?'block':'none';
+  document.querySelectorAll('#view-tablero .nav-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(id==='resumen')renderResumen();
+}
+
+// ── FILTER ──
+function filterProjects(searchId,nisId,estadoId,negId){
+  const q=(document.getElementById(searchId).value||'').toLowerCase();
+  const fn=(document.getElementById(nisId)||{}).value||'';
+  const fe=(document.getElementById(estadoId)||{}).value||'';
+  const fg=negId?(document.getElementById(negId)||{}).value||'':'';
+  return projects.filter(p=>
+    (!q||p.titulo.toLowerCase().includes(q)||p.negocio.toLowerCase().includes(q)||(p.lidComercial||'').toLowerCase().includes(q)||(p.lidTecnico||'').toLowerCase().includes(q))&&
+    (!fn||p.nis===fn)&&(!fe||p.estado===fe)&&(!fg||p.negocio.includes(fg))
+  );
+}
+
+// ── CARDS ──
+function renderCards(){
+  const list=filterProjects('t-search','t-nis','t-estado','t-neg');
+  const byE={};list.forEach(p=>{byE[p.estado]=(byE[p.estado]||0)+1;});
+  const evaluados=Object.keys(scores).filter(k=>!k.endsWith('_vals')).length;
+  const evalStat=evaluados>0?`<div class="stat" id="stat-evaluados"><div class="stat-num" style="color:var(--teal)">${evaluados}</div><div class="stat-lbl">Evaluados</div></div>`:`<div class="stat" id="stat-evaluados"><div class="stat-num" style="color:var(--text3)">0</div><div class="stat-lbl">Evaluados</div></div>`;
+  document.getElementById('t-stats').innerHTML=
+    `<div class="stat"><div class="stat-num">${list.length}</div><div class="stat-lbl">Proyectos</div></div>`+
+    evalStat+
+    estadoOrder.filter(e=>byE[e]).map(e=>`<div class="stat"><div class="stat-num" style="color:${estadoColors[e]}">${byE[e]}</div><div class="stat-lbl">${e}</div></div>`).join('');
+  document.getElementById('t-count').textContent=list.length===projects.length?`${projects.length} iniciativas`:`${list.length} de ${projects.length} iniciativas`;
+  const grid=document.getElementById('t-grid');
+  if(!list.length){grid.innerHTML='<div class="empty">Sin resultados.</div>';return;}
+  grid.innerHTML=list.map(p=>cardHTML(p)).join('');
+}
+
+function cardHTML(p){
+  const nc=nisKey[p.nis]||'M';
+  const ec=estadoColors[p.estado]||'#888';
+  const eco=p.eco?`<p class="eco-lbl">Ecosistema: ${p.eco}</p>`:'';
+  const sc=scores[p.titulo];
+  let scoreBadge='';
+  if(sc){
+    const dec=getDecision(sc);
+    scoreBadge=`<div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;flex-shrink:0">
+      <span style="font-size:18px;font-weight:300;font-family:'DM Mono',monospace;color:${decColors[dec]};line-height:1">${sc.toFixed(1)}</span>
+      <span class="dec-badge ${decLabels[dec]}" style="font-size:10px;padding:2px 7px">${dec}</span>
+    </div>`;
+  } else {
+    scoreBadge=`<span class="card-id">#${String(p.id).padStart(2,'0')}</span>`;
+  }
+  const bottomBar=`<div class="card-score-bar" style="justify-content:flex-end">
+    <button class="btn-ficha" onclick="abrirFichaDesdeCard(event,'${p.titulo}')">Ver ficha →</button>
+  </div>`;
+  return `<div class="card" onclick="openCardModal(${p.id})">
+    <div class="card-top">
+      <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0">
+        <div class="card-title">${p.titulo}</div>
+        <div class="estado-row" style="margin-bottom:0"><span class="dot" style="background:${ec}"></span>${p.estado}</div>
+      </div>
+      ${scoreBadge}
+    </div>
+    <p class="card-desc" style="margin-top:8px">${p.desc}</p>
+    <div class="card-tags"><span class="tag tag-${nc}">${p.nis}</span><span class="tag tag-neg">${p.negocio}</span></div>
+    <div class="card-people">
+      <div><div class="person-role">Líder comercial</div><div class="person-name">${p.lidComercial||'—'}</div></div>
+      <div><div class="person-role">Líder técnico</div><div class="person-name">${p.lidTecnico||'—'}</div></div>
+    </div>
+    ${eco}
+    ${bottomBar}
+  </div>`;
+}
+
+// ── RESUMEN ──
+function renderResumen(){
+  const list=filterProjects('r-search','r-nis','r-estado',null);
+  document.getElementById('r-count').textContent=list.length===projects.length?`${projects.length} iniciativas`:`${list.length} de ${projects.length} iniciativas`;
+  const body=document.getElementById('r-body');
+  if(!list.length){body.innerHTML='<tr><td colspan="6" class="empty">Sin resultados.</td></tr>';return;}
+  body.innerHTML=list.map(p=>{
+    const nc=nisKey[p.nis]||'M';
+    const ec=estadoColors[p.estado]||'#888';
+    const sc=scores[p.titulo];
+    const rowId=`expand-${p.id}`;
+    let scoreCell='<td style="color:var(--text3);font-size:12px">—</td>';
+    if(sc){
+      const dec=getDecision(sc);
+      scoreCell=`<td><div style="display:flex;align-items:center;gap:6px"><span style="font-size:16px;font-weight:300;font-family:'DM Mono',monospace;color:${decColors[dec]}">${sc.toFixed(1)}</span><span class="dec-badge ${decLabels[dec]}" style="font-size:10px;padding:2px 7px">${dec}</span></div></td>`;
+    }
+    return`<tr class="resumen-row" onclick="toggleExpand(${p.id},this)">
+      <td style="color:var(--text3);font-family:'DM Mono',monospace;font-size:12px">${String(p.id).padStart(2,'0')}</td>
+      <td style="font-weight:500">${p.titulo}</td>
+      <td style="color:var(--text2)">${p.negocio}</td>
+      <td><span class="tag tag-${nc}">${p.nis}</span></td>
+      <td><div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2)"><span class="dot" style="background:${ec}"></span>${p.estado}</div></td>
+      ${scoreCell}
+    </tr>
+    <tr class="resumen-expand" id="${rowId}"><td colspan="6"><div class="expand-inner">${expandCardHTML(p)}</div></td></tr>`;
+  }).join('');
+}
+
+function expandCardHTML(p){
+  const nc=nisKey[p.nis]||'M';
+  const ec=estadoColors[p.estado]||'#888';
+  const sc=scores[p.titulo];
+  let scoreSection='';
+  if(sc){const dec=getDecision(sc);scoreSection=`<div style="margin-top:10px;display:flex;align-items:center;gap:8px"><span style="font-size:13px;color:var(--text2)">Calificación:</span><span style="font-size:18px;font-weight:300;font-family:'DM Mono',monospace;color:${decColors[dec]}">${sc.toFixed(1)}</span><span class="dec-badge ${decLabels[dec]}" style="font-size:11px;padding:2px 9px">${dec}</span></div>`;}
+  return`<div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start">
+    <div>
+      <div style="font-size:14px;font-weight:500;margin-bottom:6px">${p.titulo}</div>
+      <p style="font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:10px">${p.desc}</p>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px"><span class="tag tag-${nc}">${p.nis}</span><span class="tag tag-neg">${p.negocio}</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px">
+        <div><div class="person-role">Líder comercial</div><div class="person-name" style="font-size:13px">${p.lidComercial||'—'}</div></div>
+        <div><div class="person-role">Líder técnico</div><div class="person-name" style="font-size:13px">${p.lidTecnico||'—'}</div></div>
+      </div>
+      ${p.eco?`<p style="font-size:11px;color:var(--text3);margin-top:6px;font-style:italic">Ecosistema: ${p.eco}</p>`:''}
+      ${scoreSection}
+    </div>
+    <button class="btn" onclick="abrirFichaDesdeResumen(event,'${p.titulo}')" style="white-space:nowrap">Ver ficha →</button>
+  </div>`;
+}
+
+function toggleExpand(id,row){
+  const expRow=document.getElementById(`expand-${id}`);
+  const isOpen=expRow.classList.contains('open');
+  document.querySelectorAll('.resumen-expand').forEach(r=>r.classList.remove('open'));
+  if(!isOpen)expRow.classList.add('open');
+}
+
+// ── MODAL CARD ──
+function openCardModal(id){
+  const p=projects.find(x=>x.id===id);if(!p)return;
+  const nc=nisKey[p.nis]||'M';
+  const ec=estadoColors[p.estado]||'#888';
+  const sc=scores[p.titulo];
+  let scoreHTML='';
+  if(sc){
+    const dec=getDecision(sc);
+    const vals=scores[p.titulo+'_vals']||[];
+    const barras=vals.map((v,i)=>`<div class="barra-row"><span class="barra-lbl">${barLabels[i]}</span><div class="barra-out"><div class="barra-in" style="width:${Math.round(v/5*100)}%;background:${barColor(v)}"></div></div><span class="barra-num">${v}/5</span></div>`).join('');
+    scoreHTML=`<div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <span style="font-size:12px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em">Calificación</span>
+        <div style="display:flex;align-items:center;gap:8px"><span style="font-size:24px;font-weight:300;font-family:'DM Mono',monospace;color:${decColors[dec]}">${sc.toFixed(1)}</span><span class="dec-badge ${decLabels[dec]}">${dec}</span></div>
+      </div>${barras}</div>`;
+  } else {
+    scoreHTML=`<div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);font-size:13px;color:var(--text3)">Sin calificación aún — ve a Matriz de decisión para evaluarlo.</div>`;
+  }
+  document.getElementById('modal-title').textContent=p.titulo;
+  document.getElementById('modal-body').innerHTML=`
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);margin-bottom:12px"><span class="dot" style="background:${ec}"></span>${p.estado}</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">${p.desc}</p>
+    <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px"><span class="tag tag-${nc}">${p.nis}</span><span class="tag tag-neg">${p.negocio}</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+      <div><div class="person-role">Líder comercial</div><div style="font-size:13px;font-weight:500;margin-top:2px">${p.lidComercial||'—'}</div></div>
+      <div><div class="person-role">Líder técnico</div><div style="font-size:13px;font-weight:500;margin-top:2px">${p.lidTecnico||'—'}</div></div>
+    </div>
+    ${p.eco?`<p style="font-size:12px;color:var(--text3);font-style:italic;margin-bottom:4px">Ecosistema: ${p.eco}</p>`:''}
+    ${scoreHTML}
+    <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:flex;gap:8px">
+      <button class="btn btn-primary" onclick="abrirFichaDesdeModal('${p.titulo}')">Abrir ficha completa →</button>
+      <button class="btn" onclick="abrirMatrizDesdeModal('${p.titulo}')">Evaluar en matriz →</button>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal(e){if(e.target===document.getElementById('modal-overlay'))closeModalBtn();}
+function closeModalBtn(){document.getElementById('modal-overlay').classList.remove('open');}
+
+function abrirFichaDesdeCard(e,titulo){e.stopPropagation();abrirFicha(titulo);}
+function abrirFichaDesdeResumen(e,titulo){e.stopPropagation();abrirFicha(titulo);}
+function abrirFichaDesdeModal(titulo){closeModalBtn();abrirFicha(titulo);}
+function abrirMatrizDesdeModal(titulo){
+  closeModalBtn();
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-matriz').classList.add('active');
+  document.querySelectorAll('header .nav-tab')[1].classList.add('active');
+  document.getElementById('m-proj').value=titulo;
+}
+function abrirFicha(titulo){
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-ficha').classList.add('active');
+  document.querySelectorAll('header .nav-tab')[2].classList.add('active');
+  loadFicha(titulo);
+  document.getElementById('f-psel').value=titulo;
+}
+
+// ── MATRIZ ──
+const mHist=[];
+function evaluar(){
+  const nombre=document.getElementById('m-proj').value;
+  if(!nombre)return;
+  const vals=[1,2,3,4].map(i=>parseInt(document.getElementById('s'+i).value));
+  const score=parseFloat((vals.reduce((a,b)=>a+b,0)/4).toFixed(1));
+  const dec=getDecision(score);
+  scores[nombre]=score;scores[nombre+'_vals']=vals;
+  document.getElementById('m-nombre').textContent=nombre;
+  document.getElementById('m-score').textContent=score.toFixed(1);
+  document.getElementById('m-score').style.color=decColors[dec];
+  document.getElementById('m-badge').innerHTML=`<span class="dec-badge ${decLabels[dec]}">${dec}</span>`;
+  document.getElementById('m-razon').textContent=razones[dec];
+  document.getElementById('m-barras').innerHTML=vals.map((v,i)=>`<div class="barra-row"><span class="barra-lbl">${barLabels[i]}</span><div class="barra-out"><div class="barra-in" style="width:${Math.round(v/5*100)}%;background:${barColor(v)}"></div></div><span class="barra-num">${v}/5</span></div>`).join('');
+  document.getElementById('m-resultado').style.display='block';
+  mHist.unshift({nombre,vals,score:score.toFixed(1),dec});
+  renderMHist();
+  renderCards();
+  renderResumen();
+  updateScoreStat();
+}
+function renderMHist(){
+  if(!mHist.length)return;
+  document.getElementById('m-hist-wrap').style.display='block';
+  document.getElementById('m-hist-body').innerHTML=mHist.map(h=>`<tr><td style="font-weight:500">${h.nombre}</td><td>${h.vals[0]}/5</td><td>${h.vals[1]}/5</td><td>${h.vals[2]}/5</td><td>${h.vals[3]}/5</td><td style="font-family:'DM Mono',monospace;font-weight:500">${h.score}</td><td><span class="dec-badge ${decLabels[h.dec]}" style="font-size:11px;padding:2px 9px">${h.dec}</span></td></tr>`).join('');
+}
+function limpiarHist(){mHist.length=0;document.getElementById('m-hist-wrap').style.display='none';document.getElementById('m-resultado').style.display='none';}
+
+function updateScoreStat(){
+  const evaluados=Object.keys(scores).filter(k=>!k.endsWith('_vals')).length;
+  const el=document.getElementById('stat-evaluados');
+  if(el){el.innerHTML=`<div class="stat-num" style="color:var(--teal)">${evaluados}</div><div class="stat-lbl">Evaluados</div>`;}
+}
+
+// ── FICHA DB ──
+const fichaDB = {
+  "Vacunas autógenas":{desc:"Vacunas a la medida de cada granja para reducir mortalidad, enfermedad y uso de antibióticos con soporte científico.",nis:"Salud",neg:"Alura",tec:"Harold Durango",com:"Juan Pedro Fernández",eco:"IOWA State University, Edgar Diaz (Anitox), Jorge T",estado:"Exploración"},
+  "Bacteriófagos":{desc:"Bacteriófagos personalizados por cliente como alternativa de precisión para reducir antibióticos.",nis:"Salud",neg:"Alura",tec:"Jorge Bardales",com:"Juan Pedro Fernández",eco:"SIWA",estado:"Validación técnica"},
+  "Autopista del agua":{desc:"Sistema integral de atención en granja a través del agua con dosificación en sitio.",nis:"Salud",neg:"AFA",tec:"No asignado",com:"Camilo Mejia",eco:"Sento",estado:"Piloto / Pruebas"},
+  "Toll manufacturing":{desc:"Capacidades de manufactura de aditivos fuera de Colombia para expansión internacional.",nis:"Inocuidad",neg:"Premex Ecuador",tec:"Beatriz Madrigal",com:"Sebastián Velez",eco:"",estado:"Estructuración"},
+  "Microbiología rápida":{desc:"Diagnóstico microbiológico en menos de una hora en granja (Hypercell tech).",nis:"Salud",neg:"Alura",tec:"Diana Rey / Laura Cristancho",com:"Juan Pedro Fernández",eco:"Hypercell Tech",estado:"Piloto / Pruebas"},
+  "Granja experimental ganadería":{desc:"Capacidades de laboratorio y experimentación en ganadería para generar evidencia.",nis:"Múltiple",neg:"Gerencia Técnica",tec:"Sin asignación",com:"Javier Chica",eco:"Granja Tarso",estado:"Exploración"},
+  "Nursing inteligente":{desc:"Plataforma de servicio para preiniciadores para mejorar acompañamiento técnico.",nis:"Múltiple",neg:"Gerencia Técnica",tec:"Juliana Villegas",com:"Javier Chica",eco:"",estado:"Estructuración"},
+  "Granja experimental preiniciadores":{desc:"Infraestructura de experimentación en preiniciadores para acelerar validaciones.",nis:"Múltiple",neg:"Gerencia Técnica",tec:"Juliana Villegas",com:"Javier Chica",eco:"",estado:"Estructuración"},
+  "Independencia NIRS":{desc:"Sistema autónomo de curvas NIR para reducir dependencia del proveedor actual.",nis:"Nutrición",neg:"Gerencia Técnica",tec:"Edwin / Jenifer",com:"Javier Chica",eco:"",estado:"Validación técnica"},
+  "Agente nutricional CTC":{desc:"Agente de IA para potenciar al equipo técnico comercial de Premex hacia formulación autónoma.",nis:"Nutrición",neg:"Gerencia Técnica",tec:"Elisa Uribe",com:"Javier Chica",eco:"Asimetrix",estado:"Estructuración"},
+  "Digital Twins Aliar":{desc:"Gemelo digital de Aliar para simular, predecir y optimizar la productividad del sistema.",nis:"Múltiple",neg:"Premex Allius",tec:"",com:"Diego Sierra",eco:"Asimetrix",estado:"Estructuración"},
+  "Mascotas (Grupo Bios)":{desc:"Propuesta de valor para el segmento de mascotas de Grupo Bios.",nis:"Múltiple",neg:"Premex Allius",tec:"",com:"Diego Sierra",eco:"",estado:"Exploración"},
+  "Pigmentos":{desc:"Propuesta en pigmentos apalancada en conocimiento y datos, iniciando con pigmentación líquida.",nis:"Nutrición",neg:"AFA",tec:"",com:"Camilo Mejia",eco:"",estado:"Piloto / Pruebas"},
+  "Zima - Enzimas":{desc:"Evaluación de oportunidad en enzimas para una apuesta competitiva basada en conocimiento.",nis:"Nutrición",neg:"AFA",tec:"Milena",com:"Camilo Mejia",eco:"",estado:"Estructuración"},
+  "Pertinent - Pesticidas":{desc:"Desarrollo de mercado para pesticidas naturales en alimento.",nis:"Salud",neg:"Iluma",tec:"Paula Barngrover",com:"Juan Pedro Fernández",eco:"",estado:"Validación técnica"},
+  "Plasma bovinos":{desc:"Reemplazo nutricional para plasma en etapas tempranas de producción.",nis:"Nutrición",neg:"Premex",tec:"Javier Chica",com:"Paula Barngrover",eco:"",estado:"Exploración"},
+  "Reemplazo formaldehído":{desc:"Alternativa eficiente al formaldehído para anticipar restricciones regulatorias.",nis:"Inocuidad",neg:"Okuo",tec:"No asignado",com:"No asignado",eco:"",estado:"Exploración"},
+  "Grasas de sobrepaso":{desc:"Capturar valor del mercado de grasas de sobrepaso.",nis:"Nutrición",neg:"Premex",tec:"",com:"Juan David Fernández",eco:"Fernando Davalos",estado:"Exploración"},
+  "Metionina / Lisina / Colina sobrepaso":{desc:"Propuesta en metionina, lisina y colina de sobrepaso apalancada en tecnología de Grascal.",nis:"Nutrición",neg:"Premex",tec:"No asignado",com:"No asignado",eco:"",estado:"Exploración"},
+};
+
+function sv(id,v){document.getElementById(id).value=v||'';}
+function sopt(id,v){const el=document.getElementById(id);for(const o of el.options){if(o.value===v||o.text===v){el.value=o.value;return;}}el.value='';}
+
+function loadFicha(nombre){
+  if(!nombre){nuevaFicha();return;}
+  const d=fichaDB[nombre]||{};
+  sv('ff-tit',nombre);sv('ff-desc',d.desc);sopt('ff-nis',d.nis);sopt('ff-neg',d.neg);
+  sv('ff-tec',d.tec);document.getElementById('ff-tec').classList.toggle('pending',!d.tec);
+  sv('ff-com',d.com);document.getElementById('ff-com').classList.toggle('pending',!d.com);
+  sv('ff-eco',d.eco);sopt('ff-estado',d.estado||'Exploración');
+  ['ff-resp','ff-si','ff-ent','ff-val','ff-notas','ff-pierde','ff-gana','ff-ganador'].forEach(id=>sv(id,''));
+  sopt('ff-dec','');sv('ff-rev','');
+  resetHitos();calcProg();
+}
+
+function nuevaFicha(){
+  document.getElementById('f-psel').value='';
+  ['ff-tit','ff-desc','ff-resp','ff-tec','ff-com','ff-eco','ff-si','ff-ent','ff-val','ff-notas','ff-rev','ff-pierde','ff-gana','ff-ganador'].forEach(id=>sv(id,''));
+  ['ff-nis','ff-neg','ff-dec'].forEach(id=>sopt(id,''));
+  sopt('ff-estado','Exploración');
+  document.getElementById('ff-tec').classList.add('pending');
+  document.getElementById('ff-com').classList.add('pending');
+  resetHitos();calcProg();
+}
+
+function resetHitos(){document.getElementById('ff-hitos').innerHTML='';addHito();}
+function addHito(){
+  const c=document.getElementById('ff-hitos');
+  const r=document.createElement('div');r.className='hito-row';
+  r.innerHTML=`<input type="checkbox"><input type="text" placeholder="Descripción del hito o próximo paso..."><input type="date">`;
+  c.appendChild(r);
+}
+
+function calcProg(){
+  const campos=['ff-tit','ff-desc','ff-nis','ff-neg','ff-resp','ff-si','ff-ent','ff-val','ff-pierde','ff-gana'];
+  const n=campos.filter(id=>document.getElementById(id).value.trim()!=='').length;
+  const pct=Math.round(n/campos.length*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-lbl').textContent=pct+'% completa';
+}
+
+function guardarFicha(){
+  const m=document.getElementById('saved-msg');
+  m.style.display='inline';setTimeout(()=>{m.style.display='none';},2000);
+}
+
+init();
+</script>
+</body>
+</html>
